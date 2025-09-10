@@ -43,11 +43,10 @@
 ~~~
 ✅ 학습 목표 :
 * SQL 쿼리 구조를 이해할 수 있다. 
-* SELECT, FROM, WHERE을 활용하는 방법을 설명할 수 있다. 
+* SELECT, FROM, WHERE의 핵심 문법을 설명할 수 있다. 
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
-
 
 
 ## 2-5. 집계 (Group By / HAVING / SUM,COUNT)
@@ -55,7 +54,8 @@
 ~~~
 ✅ 학습 목표 :
 * 데이터를 집계하고 그룹화하는 방법을 설명할 수 있다.
-* GROUP BY, HAVING, SUM/COUNT을 활용하는 방법을 설명할 수 있다. 
+* GROUP BY, HAVING, ORDER BY, 집계함수(SUM/COUNT 등)을 활용하는 방법을 설명할 수 있다.
+* having과 where의 차이에 대해서 설명할 수 있다.
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
