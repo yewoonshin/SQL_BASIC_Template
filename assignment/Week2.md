@@ -43,23 +43,70 @@
 ~~~
 ✅ 학습 목표 :
 * SQL 쿼리 구조를 이해할 수 있다. 
-* SELECT, FROM, WHERE을 활용하는 방법을 설명할 수 있다. 
+* SELECT, FROM, WHERE의 핵심 문법을 설명할 수 있다. 
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
-
-
+[SQL쿼리 구조] 
+SELECT 
+ col 1 as new_name (as 는 별칭,단 as 뒤엔 따옴표 없이 써야함 ) 
+ col 2
+FROM dataset table 
+WHERE 
+[SELECT] 
+어떤 컬럼을 선택(출력)할 것인가? 
+ -SELECT * FROM database : *는 모든 자료를 불러온다 (데이터 확인을 위함) 
+[FROM] 
+어디에서 컬럼을 불러올 것인가? '
+이름이 너무 길다면 AS 별칭으로 별칭 지정 가능 
+[WHERE]
+어떤 조건을 가진 컬럼을 가져 올 것인가? 
+FROM 에 명시된 TABLE에 저장된 데이터를 필터링(조건 설정) 
 
 ## 2-5. 집계 (Group By / HAVING / SUM,COUNT)
 
 ~~~
 ✅ 학습 목표 :
 * 데이터를 집계하고 그룹화하는 방법을 설명할 수 있다.
-* GROUP BY, HAVING, SUM/COUNT을 활용하는 방법을 설명할 수 있다. 
+* GROUP BY, HAVING, ORDER BY, 집계함수(SUM/COUNT 등)을 활용하는 방법을 설명할 수 있다.
+* having과 where의 차이에 대해서 설명할 수 있다.
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
+집계: 모아서 계산하다 ( 더하기, 뺴기, 최댓값, 최솟값, 평균, 갯수 세기) 
+[SQL 쿼리 구조] 
+SELECT
+ 집계할 컬럼1 
+ 집계함수 (count, max, min) 
+FROM table 
+GROUP BY 
+ 집계할 컬럼 1 
+[GROUP BY] 
+같은 값끼리 모아서 그룹화 
+- 특정 칼럼을 기준으로 모으며 다른 컬럼에선 집계 가능함
+  1) 그룹화 한 값에 조건 설정하기 가능
+     ex.
+      -일자별 집계
+      - 연령대별 집계 (특정 연령대에서 더 많이 구매?)
+      - 특정 타입별 집계 (특정 제품 타입 많이 구매?)
+      - 앱 화면별 집계 (어떤 화면에 유저가 많이 접근?) 
+[집계함수]
+distinct - 중복 제거
+count - 수 세기
+limit - row 수를 제한 (10개만 잘라줘) 
+[where vs having]
+where은 table에 바로 조건 설정
+having은 groupt by 한 후 조건을 설정하고 싶은 경우
+    
+[서브쿼리] 
+select 문 안에 존재하는 select 쿼리 
+from 절 안에 또 다른 select 문을 넣을 수 있음 
 
+[order by] 
+desc(내림차순) 
+맨 아래에 둔다 
+
+     
 
 
 # 2️⃣ 학습 인증란
@@ -88,11 +135,16 @@ FROM pokemon;
 ~~~
 
 
-
-~~~
 여기에 답을 작성해주세요!
 ~~~
+1. name AS '포켓몬 이름' 에서 AS 뒤에 따옴표가 없어야 한다
+2. 따옴표는 한 쿼리가 끝난 후에 써야 한다
+3. select -> from -> where 순으로 코드를 써야 한다
 
+SELECT name as 포켓몬 이름, ID 
+FROM pokemon 
+Where type='electric'; 
+~~~
 
 
 ## 문제 2
@@ -111,7 +163,12 @@ GROUP BY type;
 ~~~
 여기에 답을 작성해주세요.
 ~~~
+AVG(attack) 같은 집계 함수는 GROUP BY 이후에 계산되므로, WHERE에서는 쓸 수 없다
+집계 결과를 조건으로 거를 때는 HAVING 절을 사용해야 한다.
 
-
+SELECT type, AVG(attack) AS avg_attack
+FROM pokemon
+GROUP BY type
+HAVING AVG(attack) >= 60;
 
 ### 🎉 수고하셨습니다.
