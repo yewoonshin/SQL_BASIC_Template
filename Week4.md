@@ -55,6 +55,12 @@
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
+대표적 오류 카테고리 : syntax error
+ - 문법을 지키지 않아 생기는 오류 
+ - 해석 후 해결방법 찾아보기 
+ex. select list must not be empty at [10:1] 
+오류 디버깅 
+챗지피티에게 데이터 예시나 쿼리 제공 후 오류 발생한 것 말하기 
 
 
 
@@ -67,8 +73,19 @@
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
+select 문에서 데이터 변환 가능 (또는 where에서도 가능) 
+데이터 타입 : 숫자/ 문자/ 시간및 날짜/ 부울 
+데이터 타입이 중요한 이유: 보이는 것과 저장된 것의 차이가 존재 
+ex. 1 -> 숫자 1/ "1" 두가지 가능성
 
-
+[CAST] : 자료 타입 변경 
+select 
+ cast(1 as string) => 숫자 1을 문자 1로 변경 
+[SAFE_CAST] : 더 안전하게 데이터 타입 변경 
+ 변환 실패 시 null 변환 
+[수학 함수] 
+ 평균, 표준편차, 코사인 등 
+ex. 나누기 할 경우 SAFE_DIVIDE(x,y) 
 
 ## 4-3. 문자열 함수(CONCAT, SPLIT, REPLACE, TRIM, UPPER)
 
@@ -78,6 +95,26 @@
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
+[
+문자열 데이터로 할 수 있는 대표적 연산 
+붙이기 / 분리 / 특정 단어 수정 / 자르기/ 영어 대문자 변환 
+[concat] 
+ -여러 문자열을 하나로 
+ - concat("안녕","하세요") as result: 안녕하세요 
+[split] 
+ - 문자열 나누기 
+ - split("가,나,다,라", ",") as result: 가 나 다 라 (띄어쓰기) 
+[replace] 
+ - 특정 단어 수정하기 
+ - replace("안녕하세요","안녕","실천") as result:실천하세요
+[trim] 
+ - 문자열 자르기 
+ - trim("안녕하세요" "하세요") as result:안녕
+[upper] 
+ - 대문자로 바꾸기 
+ - upper "ab" AS upper
+
+
 
 
 
@@ -91,6 +128,25 @@
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
+[DATE]: date만 표시 
+[DATETIME]: date, time 
+[TIME]: 날짜 없이 시간만 
+
+[타임존] 
+-GMT(영국 근처에서 자주 활용) 
+-UTC: 국제적인 표준 시간 (현재는 이걸 더 많이 씀) 
+타임존이 존재한다 = 특정 지역의 표준 시간대 
+
+[TIMESTAMP] 
+UTC로부터 경과한 시간을 나타내는 값 
+time zone정보 있음 
+
+[millisecond] 
+-시간의 단위 중 천분의1초 
+- 빠른 반응이 필요한 분야에서 사용(초보다 더 정확) 
+millisecond=>timestamp=>datetime
+
+[microsecond] 
 
 
 
@@ -113,8 +169,9 @@
 > :  https://school.programmers.co.kr/learn/courses/30/lessons/131535#
 
 <!-- 문제를 풀기 위하여 로그인이  필요합니다. -->
+<img width="1887" height="883" alt="image" src="https://github.com/user-attachments/assets/90285aca-a7b2-4641-a736-c7ce5e7f4696" />
 
-<!-- 정답을 맞추게 되면, 정답입니다. 라는 칸이 생성되는데 이 부분을 캡처해서 이 주석을 지우시고 첨부해주시면 됩니다. --> 
+
 
 
 
@@ -146,7 +203,9 @@ WHERE AGE BETWEEN 20 AND 29
 ~~~
 여기에 답을 작성해주세요!
 ~~~
-
+1. 첫번째 풀이: count 는 인자를 하나만 받을 수 있음
+   즉 여러 컬럼을 동시에 셀 수 없는데 age와 joined를 한꺼번에 세는 걸 수행할 수 없음
+2. 두번째 함수: count (*)와 같은 집계 함수를 쓰며 동시에 age같은 일반 컬럼을 select절에 쓰려면 group by 절 필요 
 
 
 ### 🎉 수고하셨습니다.
