@@ -138,6 +138,26 @@ PARSE_DATETIME : 문자열로 저장된 datetime을 datetime타입으로 바꾸�
     order by
      hour
     처음에는 시간대별 배틀 건수를 그룹화했지만, 문제의 의도는 해당 구간의 총합을 구하는 것이었음. 또한 UTC 기준으로 계산해 실제 한국 시각과 어긋나는 오류가 있었음. 강의에서는 DATETIME(battle_datetime, 'Asia/Seoul')로 변환 후 EXTRACT(HOUR)를 적용하고 BETWEEN 6 AND 17 조건을 주는 방법을 제시했음. 이를 통해 문제 요구 해석의 정확성과 타임존 변환 후 조건 적용의 중요성을 배움.
+3. 포켓몬의 speed 가 70 이상이면 빠름, 그렇지 않으면 느림으로 표시하는 새로운 칼럼 speed_category를 만드시오
+select id
+kor_name,
+speed,
+if(speed >=70, '빠름','느림')as speed_category
+from basic.pokemon
+처음에는 IF 함수 문법은 맞았으나, 문자열 구분에서 따옴표(")와 '을 혼용해 일관성이 떨어졌음. 또한 SELECT 구문에서 id 뒤에 쉼표가 빠져 문법 오류가 발생했음. 강의에서는 IF(speed >= 70, '빠름', '느림') 형태로 정확히 작성하고, 컬럼 구분을 명확히 하는 것이 중요하다고 설명했음. 이 문제를 통해 SQL 구문의 세밀한 문법과 문자열 처리의 일관성이 결과에 직접적인 영향을 준다는 점을 배움.
+5. 포켓몬의 type1에 따라 water,fire,electric타입은 각각 물, 불, 전기로 그외 타입은 기타로 분류하는 새로운 칼럼 type_korean을 만들어주세요
+select
+ id,
+ kor_name,
+ type1,
+ case
+  when type1="water" then "물"
+  when type1="fire" then "불"
+  when type1="electric" then "전기"
+  else "기타"
+ end as type1_korean
+from basic.pokemon
+처음에는 CASE 문을 작성하면서 "water"와 같은 문자열 비교 시 큰따옴표를 사용했는데, BigQuery에서는 일반적으로 'water'처럼 작은따옴표를 사용하는 것이 권장됨. 또한 type_korean으로 명명해야 할 새 컬럼명을 type1_korean으로 작성하는 사소한 불일치가 있었음. 강의에서는 CASE WHEN type1 = 'water' THEN '물'처럼 통일된 따옴표 사용과 명확한 조건 분기를 강조했음. 이를 통해 CASE 문 구조와 문자열 표준화의 중요성, 그리고 새로운 컬럼명 정의 시 일관된 네이밍 규칙을 지키는 것이 좋다는 점을 배움.
 <br>
 
 <br>
