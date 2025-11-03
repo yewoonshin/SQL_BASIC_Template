@@ -8,6 +8,7 @@
 
 
 
+
 ## SQL_BASIC_5th
 
 ### 섹션 5. 데이터 탐색 - 변환
@@ -59,8 +60,20 @@
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
+extract: 특정 부분만 추출하고 싶은 경우 (예: extract date from date time "2025-11-03 14:00:00") as date
+dayofweek: 요일만 추출 가능 월-1, 화-2, .... 일-7 
+DATETIME_TRUNC: date와 hour만 남기고 싶은 경우의 시간 자르기 
+PARSE_DATETIME : 문자열로 저장된 datetime을 datetime타입으로 바꾸고싶은 경우 
+  문자열을 date 타입에 맞게 파싱됨 
+  format elements 문서를 확인하면 %Y등이 어떤 문제인지 확인 가능 
+  LAST_DAY: 마지막날을 알고싶은 경우 자동으로 월의 마지막 값을 계산해 특정 연산 
+  두 DATETIME의 차이를 알고 싶은 경우 DATETIME_DIFF (며칠차이인가?) 
+  두 MONTH 차이를 알고자 하면 MONTH_DIFF 
+날짜 및 시간 데이터 타입 
+-DATE
+-DATETIME: DATE+TIME
 
-![alt text](image.png)
+
 
 # 4-6. 조건문(CASE WHEN, IF)
 
@@ -71,6 +84,26 @@
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
 
+<!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
+조건문 함수가 필요한 이유: 특정 카테고리를 하나로 합치는 전처리 필요 
+ 왜냐하면, 저장하는 쪽과 분석하는 쪽이 나뉨. 
+  -> 분석할 때 필요한 부분에서 조건 설정해서 변경하는 것이 더 유용함. 
+1) CASE WHEN
+   -여러 조건이 있을 경우 유용 
+   - 문법
+     select
+       case
+         when 조건1 then (조건1이 참일 경우 결과)
+         when 조건2 then (조건2가 참일 경우 결과)
+         else 그 외 조건일 경우 결과
+       end as 새로운 컬럼_이름
+   ** 순서 중요!!
+     - 조건1, 조건2에 둘다 해당하면 앞선 순서 따름
+     - 문자열 함수(특정단어 추출)에서 이슈 발생
+  2) IF
+     -단일 조건일 경우 유용
+     -문법 IF(조건문, true일때 값, false일떄 값) as 새로운 컬럼 이름 
+ # 4-5. 시간 데이터 연습문제 & 4-7. 조건문 연습 문제
 
 
  # 4-5. 시간 데이터 연습문제 & 4-7. 조건문 연습 문제
@@ -118,6 +151,7 @@
 
 ~~~
 여기에 답을 작성해주세요!
+3번: login_date가 date 타입인데 '2021'은 문자열 타입
 ~~~
 
 
@@ -149,6 +183,9 @@ FROM pokemon;
 
 ~~~
 여기에 답을 작성해주세요!
+pikachu, Buldasaur
+case문에서 지정한 조건(fire, water)에 해당하지 않는 type1값 (electric, grass)는 else 'normal'로 분류되므로 type_description결과가 'normal'로 출력됨
+
 ~~~
 
 
