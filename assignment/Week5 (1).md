@@ -6,6 +6,7 @@
 
 **(수행 인증샷은 필수입니다.)** 
 
+<img width="447" height="518" alt="image" src="https://github.com/user-attachments/assets/f25edddb-0d3e-4e3c-89ac-fc6fd7fdba78" />
 
 
 
@@ -114,9 +115,29 @@ PARSE_DATETIME : 문자열로 저장된 datetime을 datetime타입으로 바꾸�
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
-
-
-
+1. 트레이너가 포켓몬을 포획한 날짜(catch_date)를 기준으로 2023년 1월에 포획한 포켓몬의 수를 계산하라
+   select
+      count(distinct id) as cnt
+   from basic.trainer_pokemon
+   where
+    extract (year from datetime(catch_datetime, "ASia/seoul")) =2023 
+    and extract month from datetime(catch_datetime, 'asia/seoul')=1
+   처음에는 EXTRACT 구문을 잘못 작성하고, "ASia/seoul"처럼 타임존 표기를 틀리게 입력했음. 또한 DATETIME() 함수의 입력 타입을 고려하지 않아 불필요한 변환을 수행했음. 강의에서는 TIMESTAMP를 DATETIME(timestamp, 'Asia/Seoul')로 변환한 뒤 EXTRACT(YEAR)와 EXTRACT(MONTH)를 적용해야 정확하다고 설명했음. 이를 통해 타임존 변환 순서와 함수 문법의 정확한 사용법을 배움.
+2.  배틀이 일어난 시간(battle_datetime)을 기준으로 오전 6시에서 오후 6시 사이에 일어난 배틀의 수를 계산하라
+  select
+    hour,
+    count(distinct id) as battle_cnt
+   from (
+    select
+      *,
+       extract(hour from battle_datetime) as hour
+       from basic.battle
+    )
+    group by
+     hour
+    order by
+     hour
+    처음에는 시간대별 배틀 건수를 그룹화했지만, 문제의 의도는 해당 구간의 총합을 구하는 것이었음. 또한 UTC 기준으로 계산해 실제 한국 시각과 어긋나는 오류가 있었음. 강의에서는 DATETIME(battle_datetime, 'Asia/Seoul')로 변환 후 EXTRACT(HOUR)를 적용하고 BETWEEN 6 AND 17 조건을 주는 방법을 제시했음. 이를 통해 문제 요구 해석의 정확성과 타임존 변환 후 조건 적용의 중요성을 배움.
 <br>
 
 <br>
