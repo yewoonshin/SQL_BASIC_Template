@@ -204,8 +204,19 @@ from
    type1
    order by
    2 desc 
+   3. 트레이너 고향 = 포획 위치인 트레이너 수 세기 
+   SELECT
+  COUNT(DISTINCT tp.trainer_id) AS trainer_uniq,
+  COUNT(tp.trainer_id) AS trainer_cnt
+FROM `festive-courier-477814-j5.basic_.trainer` AS t
+LEFT JOIN `festive-courier-477814-j5.basic_.trainer_pokemon` AS tp
+  ON t.id = tp.trainer_id
+WHERE
+  tp.location IS NOT NULL
+  AND t.hometown = tp.location;
    <img width="888" height="616" alt="image" src="https://github.com/user-attachments/assets/9ae01f15-9d65-4261-8cc6-768ce9b21b9e" />
 <img width="1421" height="627" alt="image" src="https://github.com/user-attachments/assets/144a83c8-edbf-45a6-bf7e-23e6771b0898" />
+<img width="1507" height="517" alt="image" src="https://github.com/user-attachments/assets/18da9f8a-98e7-4ecc-b507-466e55f1d795" />
 
    
 <br>
