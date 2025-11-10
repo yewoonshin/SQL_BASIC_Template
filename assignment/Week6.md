@@ -204,6 +204,9 @@ from
    type1
    order by
    2 desc 
+   <img width="888" height="616" alt="image" src="https://github.com/user-attachments/assets/9ae01f15-9d65-4261-8cc6-768ce9b21b9e" />
+<img width="1421" height="627" alt="image" src="https://github.com/user-attachments/assets/144a83c8-edbf-45a6-bf7e-23e6771b0898" />
+
    
 <br>
 
