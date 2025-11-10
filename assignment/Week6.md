@@ -56,8 +56,16 @@
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
-
-
+JOIN이란?
+여러 테이블을 공통 값(키)을 기준으로 연결해서
+하나의 결과로 만드는 SQL 연산.
+BigQuery는 대용량 데이터 분석 환경이므로
+JOIN을 효율적으로 쓰는 것이 매우 중요함.
+[JOIN의필요성] 
+- 관계형 데이터베이스 설계 시 정규화 과정 거침 (중복 최소화, 데이터 구조화)
+- user table은 유저 데이터만, order table 은 주문 데이터만(예시) 
+- 따라서 데이터를 다양한 table에 저장해 필요할 때 join 해서 사용 
+분석 관점에선 미리 join 되어있는것이 좋을 수 있지만 개발 관점에선 분리된게 좋음 
 
 ## 5-3. 다양한 JOIN 방법
 
@@ -80,7 +88,73 @@
 ~~~
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
+1) INNER JOIN
 
+양쪽 테이블에 모두 존재하는 값만 가져옴
+
+SELECT *
+FROM A
+INNER JOIN B
+ON A.key = B.key;
+
+
+교집합만 반환
+
+매칭 안 되면 결과에서 제외
+
+언제 사용?
+공통된 데이터만 보고 싶을 때 (예: 주문한 고객만 보기)
+
+2) LEFT JOIN (LEFT OUTER JOIN)
+
+왼쪽 테이블을 기준으로 모두 가져오고, 매칭 안 되는 오른쪽은 NULL
+
+SELECT *
+FROM A
+LEFT JOIN B
+ON A.key = B.key;
+
+
+A가 기준
+
+A에는 있지만 B에 없는 행도 포함 → B값은 NULL
+
+언제 사용?
+전체 고객 목록 중 주문 유무 확인할 때
+
+3) RIGHT JOIN (RIGHT OUTER JOIN)
+
+오른쪽 테이블을 기준으로 모두 가져옴
+
+SELECT *
+FROM A
+RIGHT JOIN B
+ON A.key = B.key;
+
+
+B가 기준
+
+실무에서 거의 안 씀 → LEFT JOIN으로 방향만 바꿔 해결 가능
+
+언제 사용?
+거의 없음 (데이터 파이프라인에서 일부 사용)
+
+4) FULL JOIN (FULL OUTER JOIN)
+
+양쪽 테이블의 모든 행을 가져옴 (매칭 안 되면 NULL)
+
+SELECT *
+FROM A
+FULL JOIN B
+ON A.key = B.key;
+
+
+합집합
+
+양쪽에 없는 값도 모두 표시
+
+언제 사용?
+두 데이터 소스 전체 비교, 통합 리포트 만들 때
 
 
 ## 5-6. JOIN 연습문제 1~5번 
@@ -92,10 +166,43 @@
 
 <!-- 새롭게 배운 내용을 자유롭게 정리해주세요.-->
 
-
-
 <br>
-
+1. 트레이너가 보유한 포켓문들은 얼마나 있는지 알 수 있는 쿼리 작성
+SELECT
+  t.id AS trainer_id,
+  t.kor_name AS trainer_name,
+  COUNT(tp.pokemon_id) AS pokemon_cnt
+FROM basic.trainer AS t
+LEFT JOIN basic.trainer_pokemon AS tp
+  ON t.id = tp.trainer_id
+  AND tp.status IN ("active", "training")
+GROUP BY
+  t.id, t.kor_name
+ORDER BY
+  pokemon_cnt DESC;
+2. 각 트레이너가 가진 포켓몬 중 grass타입 포켓몬 수를 계산 
+select 
+ tp. *, 
+ p.type1
+from 
+ select 
+   id 
+   trainer_id, 
+   pokemon_id, 
+  status 
+ from trainer_pokemon 
+ where 
+  status in ("active", "training") 
+  ) as tp 
+  left join basic.pokemon as p 
+  on tp.pokemon_id=p.id 
+  where
+   type1 ="grass" 
+   groupy by
+   type1
+   order by
+   2 desc 
+   
 <br>
 
 ---
@@ -112,8 +219,43 @@ https://school.programmers.co.kr/learn/courses/30/lessons/144854
 
 > 조건에 맞는 도서와 저자 리스트 출력하기 (JOIN)
 
-<!-- 정답을 맞추게 되면, 정답입니다. 이 부분을 캡처해서 이 주석을 지우시고 첨부해주시면 됩니다. --> 
+<img width="1890" height="911" alt="image" src="https://github.com/user-attachments/assets/6b89f5e1-79a1-414e-b0f9-23c471a94bb8" />
+<img width="1887" height="882" alt="image" src="https://github.com/user-attachments/assets/7615cd83-35e7-4128-9902-829f22143d41" />
+1. 풀이 과정 
+테이블 연결: BOARD와 REPLY 테이블을 BOARD_ID로 JOIN
+조건 설정: 게시글 작성일이 2022년 10월인 것만 WHERE로 필터링
+결과 형식: 댓글 작성일을 YYYY-MM-DD 형식으로 DATE_FORMAT 지정
+정렬: 댓글 작성일, 게시글 제목 순으로 오름차순 정렬
 
+2. 결과 
+SELECT A.TITLE, B.BOARD_ID, B.REPLY_ID, B.WRITER_ID, B.CONTENTS,
+       DATE_FORMAT(B.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE
+FROM USED_GOODS_BOARD A JOIN USED_GOODS_REPLY B
+ON A.BOARD_ID = B.BOARD_ID
+WHERE A.CREATED_DATE LIKE '2022-10%'
+ORDER BY B.CREATED_DATE, A.TITLE;
+3. 배운 점
+JOIN으로 데이터 통합하고, LIKE로 날짜 범위를 잡는 법을 익힘
+DATE_FORMAT으로 출력 형식을 맞추는 것이 중요함
+다중 정렬(ORDER BY) 순서를 정확히 지정해야함 
+1. 풀이 과정
+테이블 연결: BOOK과 AUTHOR 테이블을 AUTHOR_ID로 JOIN
+조건 설정: 도서 카테고리가 **'경제'**인 것만 WHERE로 필터링
+   형식: 출판일(PUBLISHED_DATE)을 YYYY-MM-DD 형식으로 DATE_FORMAT 지정
+정렬: 출판일 기준으로 오름차순 정렬
+
+2. 결과 
+SELECT B.BOOK_ID, A.AUTHOR_NAME,
+       DATE_FORMAT(B.PUBLISHED_DATE, '%Y-%m-%d') AS PUBLISHED_DATE
+FROM BOOK B JOIN AUTHOR A
+ON B.AUTHOR_ID = A.AUTHOR_ID
+WHERE B.CATEGORY = '경제'
+ORDER BY B.PUBLISHED_DATE ASC;
+3. 배운 점 (Key Takeaways)
+JOIN으로 데이터 연결하여 도서와 저자 정보를 통합함
+WHERE 절로 특정 조건('경제' 카테고리) 데이터만 필터링
+DATE_FORMAT으로 출판일 형식을 요구사항에 맞게 처리함
+ORDER BY로 단일 기준(출판일) 오름차순 정렬을 적용함
 
 
 ---
