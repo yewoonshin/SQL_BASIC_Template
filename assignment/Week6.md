@@ -45,6 +45,8 @@
 <br>
 
 ---
+<img width="472" height="557" alt="image" src="https://github.com/user-attachments/assets/a1ef6ced-5632-40a8-8ffc-1a4d51a04446" />
+
 
 # 1️⃣ 개념정리
 
